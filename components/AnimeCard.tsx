@@ -3,16 +3,37 @@ import Image from "next/image";
 import React from "react";
 import { MdOutlineStarBorder } from "react-icons/md";
 import { GoStack } from "react-icons/go";
+import { MotionDiv } from "./MotionDiv";
 
-const AnimeCard = ({ anime }: Prop) => {
+
+const variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
+
+const AnimeCard = ({ anime, index }: Prop) => {
   return (
-    <div className="max-w-sm ">
+    <MotionDiv
+      className="max-w-sm "
+      variants={variants}
+      initial="hidden"
+      animate="visible"
+      transition={{
+        delay: index * 0.25,
+        ease: "easeInOut",
+        duration: 0.5,
+      }}
+      viewport={{ amount: 0 }}
+    >
       <div className="relative w-full h-[37vh]">
         <Image
-          src={anime.image.original}
+          src={`https://shikimori.one${anime.image.original}`}
           alt={anime.name}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 30vw"
+          placeholder="blur"
+          blurDataURL={`https://shikimori.one${anime.image.original}`}
+          priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 50vw"
           className="object-cover object-bottom rounded-xl"
         />
       </div>
@@ -36,7 +57,7 @@ const AnimeCard = ({ anime }: Prop) => {
           </div>
         </div>
       </div>
-    </div>
+    </MotionDiv>
   );
 };
 
